@@ -1,0 +1,1049 @@
+-----------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\Marimo\Desktop\homework_sub.log
+  log type:  text
+ opened on:  17 Jul 2020, 23:57:31
+
+. 
+. 
+. ***homework
+. * name : Ling Wang    365543
+. * name: Xiaotong Meng 351191
+. 
+. use prison.dta
+
+. 
+. ***Exercise1
+. ** part a 
+. * i 
+. gen lmetro= ln(metro)
+
+. gen lpolpc= ln(polpc)
+
+. gen lblack= ln(black)
+
+. gen lunem = ln(unem)
+
+. 
+. * criv has already the normal shape, since the long tail at the right side has a extremmly small de
+> nsity less than 0.005, whicn can be ignored. Taking log make it have much heavier tail, which even 
+> not decay as normal. So we do not take log.
+. histogram criv,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=.47562778, width=1.1054756)
+
+. histogram lcriv,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=-.74311972, width=.15838094)
+
+. 
+. * pris has the normal shape, and  taking log make its shape more normal-like with respect to symmet
+> ric, however there is outlier, which with the highest density  of all. Moreover, take lmetro insead
+>  of metro decrease the r^2, so we don't take log.
+. histogram pris,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=20.826952, width=48.692714)
+
+. histogram lpris,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=3.036248, width=.15860366)
+
+. 
+. *unem has already the normal shape, taking log makes it much more normal-like and increase the r^2,
+>  so we take lunem.
+. histogram unem,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=.02142, width=.00611192)
+
+. histogram lunem,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=-3.8434303, width=.0819409)
+
+. 
+. 
+. *The variable black and metro have really bad distribution, taking log also not really make it more
+>  normal-like. In addition take log of them insead of original ones decrease the r^2, so we keep ori
+> ginal ones.
+. histogram black,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=.002, width=.02696154)
+
+. histogram lblack,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=-6.2146082, width=.22546961)
+
+. histogram metro,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=.153, width=.03257692)
+
+. histogram lmetro,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=-1.8773174, width=.07220452)
+
+. 
+. *polpc has the mormal shape, taking log make it less normal-like and decrease the r^2, so we do not
+>  take log.
+. histogram polpc,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=161.11888, width=28.724162)
+
+. histogram lpolpc,kden norm normopts(lcolor(blue)) legend(on position(2) ring(0))
+(bin=26, start=5.0821424, width=.06650169)
+
+. 
+. 
+. reg criv pris lunem black metro polpc y81-y93
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =    201.20
+       Model |  7079.22616        18  393.290342   Prob > F        =    0.0000
+    Residual |  1358.51308       695  1.95469508   R-squared       =    0.8390
+-------------+----------------------------------   Adj R-squared   =    0.8348
+       Total |  8437.73925       713  11.8341364   Root MSE        =    1.3981
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0081649    .000824     9.91   0.000     .0065472    .0097827
+       lunem |   1.424669   .1996229     7.14   0.000     1.032733    1.816605
+       black |   3.870612   .6963879     5.56   0.000     2.503336    5.237888
+       metro |   4.202556   .2586943    16.25   0.000      3.69464    4.710472
+       polpc |   .0152737   .0009564    15.97   0.000      .013396    .0171515
+         y81 |   -.054271   .2771526    -0.20   0.845    -.5984278    .4898858
+         y82 |  -.7480274    .283165    -2.64   0.008    -1.303989   -.1920661
+         y83 |   -1.08999   .2837112    -3.84   0.000    -1.647024   -.5329568
+         y84 |  -.8371424   .2794523    -3.00   0.003    -1.385814   -.2884705
+         y85 |  -.8053375   .2803262    -2.87   0.004    -1.355725   -.2549496
+         y86 |  -.6630253   .2819112    -2.35   0.019    -1.216525   -.1095256
+         y87 |  -.8045086   .2851745    -2.82   0.005    -1.364415   -.2446018
+         y88 |  -.5225079   .2915986    -1.79   0.074    -1.095028    .0500118
+         y89 |  -.4477675   .2961824    -1.51   0.131    -1.029287     .133752
+         y90 |  -.2321381   .2988263    -0.78   0.438    -.8188486    .3545724
+         y91 |  -.3962259   .2975712    -1.33   0.183    -.9804722    .1880203
+         y92 |  -.5054967   .3008373    -1.68   0.093    -1.096156    .0851622
+         y93 |  -.5280856   .3055957    -1.73   0.084    -1.128087    .0719159
+       _cons |   .6891927   .5905064     1.17   0.244    -.4701976    1.848583
+------------------------------------------------------------------------------
+
+. 
+. 
+. *ii
+. margins, dydx(pris) 
+
+Average marginal effects                        Number of obs     =        714
+Model VCE    : OLS
+
+Expression   : Linear prediction, predict()
+dy/dx w.r.t. : pris
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0081649    .000824     9.91   0.000     .0065472    .0097827
+------------------------------------------------------------------------------
+
+. *null hypothesis and the marignal effect is significant at > 99.9% significance level. 
+. 
+. * Interpretation:  pris(person pop. per 100000 ) increases in one unit leads to the increasing of c
+> riv (violent crime rates) by 0.08 unit， ceteris paribus.
+. *This gives the answer to our research question that the more crowed the prison is,  the higher is 
+> the violent crime rates.
+. 
+. *iii one sieded  significance test
+. test _b[pris]=0
+
+ ( 1)  pris = 0
+
+       F(  1,   695) =   98.20
+            Prob > F =    0.0000
+
+. *As long as the F test has 1 numerator degree of freedom, the square root of the F statistic is the
+>  absolute value of the t statistic for the one-sided test.
+. 
+. display "Ho: coef <= 0  p-value = " ttail(r(df_r), sqrt(r(F)))
+Ho: coef <= 0  p-value = 4.830e-22
+
+. *null hypothesis and the marignal effect is significant at > 99.9% level. 
+. 
+. *iv
+. 
+. estat imtest, white
+
+White's test for Ho: homoskedasticity
+         against Ha: unrestricted heteroskedasticity
+
+         chi2(98)     =    353.51
+         Prob > chi2  =    0.0000
+
+Cameron & Trivedi's decomposition of IM-test
+
+---------------------------------------------------
+              Source |       chi2     df      p
+---------------------+-----------------------------
+  Heteroskedasticity |     353.51     98    0.0000
+            Skewness |      33.22     18    0.0157
+            Kurtosis |       4.90      1    0.0268
+---------------------+-----------------------------
+               Total |     391.63    117    0.0000
+---------------------------------------------------
+
+. * nul hypothesis  of homoscedasticity is rejected, taking robusted version to get better estimation
+>  of standard errors.
+. reg criv pris lunem black metro polpc y81-y93, vce(robust)
+
+Linear regression                               Number of obs     =        714
+                                                F(18, 695)        =     118.87
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.8390
+                                                Root MSE          =     1.3981
+
+------------------------------------------------------------------------------
+             |               Robust
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0081649   .0011316     7.22   0.000     .0059431    .0103867
+       lunem |   1.424669   .1788945     7.96   0.000      1.07343    1.775907
+       black |   3.870612    .939123     4.12   0.000     2.026754     5.71447
+       metro |   4.202556   .2681382    15.67   0.000     3.676098    4.729014
+       polpc |   .0152737   .0014636    10.44   0.000     .0124001    .0181474
+         y81 |   -.054271   .2813452    -0.19   0.847    -.6066594    .4981174
+         y82 |  -.7480274   .2675623    -2.80   0.005    -1.273355   -.2227001
+         y83 |   -1.08999   .2449622    -4.45   0.000    -1.570945   -.6090357
+         y84 |  -.8371424   .2426164    -3.45   0.001    -1.313491   -.3607934
+         y85 |  -.8053375   .2528214    -3.19   0.002    -1.301723   -.3089522
+         y86 |  -.6630253   .2750164    -2.41   0.016    -1.202988   -.1230628
+         y87 |  -.8045086   .2651295    -3.03   0.003    -1.325059   -.2839578
+         y88 |  -.5225079   .2672668    -1.96   0.051    -1.047255    .0022393
+         y89 |  -.4477675   .2789606    -1.61   0.109     -.995474    .0999391
+         y90 |  -.2321381   .3041626    -0.76   0.446    -.8293259    .3650497
+         y91 |  -.3962259   .3059526    -1.30   0.196    -.9969281    .2044762
+         y92 |  -.5054967     .32355    -1.56   0.119    -1.140749     .129756
+         y93 |  -.5280856   .3295777    -1.60   0.110    -1.175173    .1190016
+       _cons |   .6891927   .5321175     1.30   0.196    -.3555578    1.733943
+------------------------------------------------------------------------------
+
+. 
+. 
+. predict re1, resid
+
+. graph twoway (lfit pris re1) (scatter pris re1)
+
+. graph twoway (lfit metro re1) (scatter metro re1)
+
+. 
+. * from the scatter plots above we can say some of the explanatory variables may not strictly exogen
+> ous, which might cause the biased estimation.
+. 
+. 
+. 
+. *part b
+. *i
+. **panel model:
+. * criv= beta_0+ beta_1*pris+ beta_2*lunem+ beta_3*black+ beta_4*metro+ beta_5*polpc+ C_i+U_it
+. * Ci=αZi， 
+. * example: the age distribution in populations and the education level of the populations might als
+> o be the unobserved individual effets. 
+. 
+. xtset state year
+       panel variable:  state (strongly balanced)
+        time variable:  year, 80 to 93
+                delta:  1 unit
+
+. 
+. *ii
+. 
+. /* Assumptions of RE:
+> Exogeneity: 
+> RE.1a: The error term U_it is not correlated with criv pris unem black lmetro polpc or C_i in t and
+>  all other years.
+> RE.1 C_i not correlated with criv pris unem black lmetro polpc or in all years
+> 
+> 
+> Rank:
+> RE.2: The matrix ofcriv pris i.year unem black lmetro polpc including a constant and weighted with 
+> the RE error variance should be of full rank
+> 
+> 
+> Homoskedasticity:
+> RE.3: The variance of U_it is constant in the cross-sectional dimension of U_it and C_i. The error 
+> terms U_it are not autocorrelated. The variance of C_i is is constant in the cross-sectional dimens
+> ion of pris unem black lmetro polpc.
+> */
+. 
+. 
+. xtreg criv pris i.year lunem black metro polpc, re 
+
+Random-effects GLS regression                   Number of obs     =        714
+Group variable: state                           Number of groups  =         51
+
+R-sq:                                           Obs per group:
+     within  = 0.4936                                         min =         14
+     between = 0.8492                                         avg =       14.0
+     overall = 0.8188                                         max =         14
+
+                                                Wald chi2(18)     =     943.49
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0048441   .0006861     7.06   0.000     .0034995    .0061887
+             |
+        year |
+         81  |   .0445634   .1499079     0.30   0.766    -.2492508    .3383775
+         82  |  -.2615323   .1581493    -1.65   0.098    -.5714992    .0484346
+         83  |  -.5563716   .1594051    -3.49   0.000    -.8687998   -.2439434
+         84  |  -.6167999   .1531814    -4.03   0.000    -.9170299   -.3165698
+         85  |  -.5824151   .1542124    -3.78   0.000    -.8846659   -.2801644
+         86  |   -.432801   .1559659    -2.77   0.006    -.7384886   -.1271134
+         87  |  -.6865093   .1595527    -4.30   0.000    -.9992269   -.3737918
+         88  |  -.5510992    .167037    -3.30   0.001    -.8784857   -.2237128
+         89  |  -.4730101   .1723532    -2.74   0.006    -.8108161    -.135204
+         90  |  -.1023401   .1754528    -0.58   0.560    -.4462212    .2415411
+         91  |   .0163128   .1748211     0.09   0.926    -.3263302    .3589558
+         92  |   .0446543   .1789798     0.25   0.803    -.3061396    .3954482
+         93  |  -.0361562   .1841968    -0.20   0.844    -.3971752    .3248628
+             |
+       lunem |   .0167739    .169631     0.10   0.921    -.3156967    .3492444
+       black |   7.902407   1.480845     5.34   0.000     5.000005    10.80481
+       metro |   3.928885   .7526308     5.22   0.000     2.453755    5.404014
+       polpc |   .0135998   .0013364    10.18   0.000     .0109806     .016219
+       _cons |  -2.540523   .7031864    -3.61   0.000    -3.918743   -1.162303
+-------------+----------------------------------------------------------------
+     sigma_u |  1.1677135
+     sigma_e |  .74464668
+         rho |  .71090552   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. est sto random
+
+. * the coefficient of pris in panel model(using radam effects) is less than  that of pooled OLS mode
+> l by about 0.003. 
+. *The answer to the research question is the same as in a. The more crowed the prison is,  the highe
+> r is the violent crime rates, however, C_i in POLS is assumeed to be 0 to avoid violation of assump
+> tion, but here it is allowed to be non-zero. Thus the unobserved effects are now considered in the 
+> estimation. And the decrease of coefficient of pris, tells this case and indicate that there  might
+>  be other sources of unobserved individual effects, which also playing an important role in affecti
+> ng violate crime rate.
+. 
+. 
+. *iii
+. /*Assumptions of FE:
+> Exogeneity: 
+> FE.1: The error term U_it is not correlated with criv pris  unem black lmetro polpc or C_i in t and
+>  all other years. 
+> 
+> Rank:
+> FE.2: The matrix of demeaned criv pris i.year unem black lmetro polpc including a constant should b
+> e of full rank
+> 
+> Homoskedasticity:
+> FE.3: The variance of U_it is constant in the cross-sectional dimension of pris unem black lmetro p
+> olpc and C_i. The error terms U_it are not autocorrelated.
+> */
+. 
+. xtreg criv pris i.year unem black lmetro polpc, fe
+
+Fixed-effects (within) regression               Number of obs     =        714
+Group variable: state                           Number of groups  =         51
+
+R-sq:                                           Obs per group:
+     within  = 0.5032                                         min =         14
+     between = 0.0280                                         avg =       14.0
+     overall = 0.0010                                         max =         14
+
+                                                F(18,645)         =      36.30
+corr(u_i, Xb)  = -0.4065                        Prob > F          =     0.0000
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0034498   .0007974     4.33   0.000     .0018839    .0050157
+             |
+        year |
+         81  |   .0764552   .1477028     0.52   0.605    -.2135812    .3664916
+         82  |  -.1593252   .1604987    -0.99   0.321    -.4744882    .1558378
+         83  |  -.4137502   .1633952    -2.53   0.012     -.734601   -.0928995
+         84  |  -.4704635   .1546707    -3.04   0.002    -.7741825   -.1667446
+         85  |  -.4053883   .1575457    -2.57   0.010    -.7147528   -.0960239
+         86  |   -.214529   .1624495    -1.32   0.187    -.5335228    .1044648
+         87  |  -.4366107   .1694352    -2.58   0.010    -.7693219   -.1038995
+         88  |  -.2716856    .179915    -1.51   0.132    -.6249754    .0816042
+         89  |  -.1554863   .1901266    -0.82   0.414    -.5288282    .2178556
+         90  |   .2709372   .2001098     1.35   0.176    -.1220081    .6638825
+         91  |   .4475268   .2051419     2.18   0.030     .0447002    .8503534
+         92  |   .5205233   .2136911     2.44   0.015      .100909    .9401376
+         93  |   .4731782   .2244364     2.11   0.035     .0324639    .9138925
+             |
+        unem |  -1.246489   2.588073    -0.48   0.630    -6.328556    3.835578
+       black |  -12.21068   9.668953    -1.26   0.207     -31.1971     6.77575
+      lmetro |  -1.267851   .6010766    -2.11   0.035    -2.448154   -.0875474
+       polpc |   .0124324   .0015088     8.24   0.000     .0094696    .0153951
+       _cons |   1.819044   1.203301     1.51   0.131    -.5438164    4.181905
+-------------+----------------------------------------------------------------
+     sigma_u |  3.7172073
+     sigma_e |  .74198126
+         rho |  .96168362   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(50, 645) = 38.66                    Prob > F = 0.0000
+
+. est sto fixed
+
+. * the coefficient of pris in panel model(using radam effects) is less than  that of pooled OLS mode
+> l by about 0.001. 
+. *The answer to the research question is the same as in a. The more crowed the prison is,  the highe
+> r is the violent crime rates, however, now C_i are allowed to be corelated with explanatory variabl
+> es , which means there are sources of unobserved effects correlated with pris. 
+. 
+. *C_i  is allowed to be correlated with criv pris unem black lmetro polpc or in all years.
+. hausman random fixed, sigmamore
+
+Note: the rank of the differenced variance matrix (5) does not equal the number of coefficients being
+        tested (16); be sure this is what you expect, or there may be problems computing the test.
+        Examine the output of your estimators for anything unexpected and possibly consider scaling
+        your variables so that the coefficients are on a similar scale.
+
+                 ---- Coefficients ----
+             |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
+             |     random       fixed        Difference          S.E.
+-------------+----------------------------------------------------------------
+        pris |    .0048441     .0034498        .0013943               .
+        year |
+         81  |    .0445634     .0764552       -.0318918               .
+         82  |   -.2615323    -.1593252       -.1022071               .
+         83  |   -.5563716    -.4137502       -.1426214               .
+         84  |   -.6167999    -.4704635       -.1463363               .
+         85  |   -.5824151    -.4053883       -.1770268               .
+         86  |    -.432801     -.214529        -.218272               .
+         87  |   -.6865093    -.4366107       -.2498987               .
+         88  |   -.5510992    -.2716856       -.2794137               .
+         89  |   -.4730101    -.1554863       -.3175238               .
+         90  |   -.1023401     .2709372       -.3732773               .
+         91  |    .0163128     .4475268        -.431214               .
+         92  |    .0446543     .5205233        -.475869               .
+         93  |   -.0361562     .4731782       -.5093344               .
+       black |    7.902407    -12.21068        20.11308               .
+       polpc |    .0135998     .0124324        .0011674               .
+------------------------------------------------------------------------------
+                           b = consistent under Ho and Ha; obtained from xtreg
+            B = inconsistent under Ha, efficient under Ho; obtained from xtreg
+
+    Test:  Ho:  difference in coefficients not systematic
+
+                  chi2(5) = (b-B)'[(V_b-V_B)^(-1)](b-B)
+                          =   -34.44    chi2<0 ==> model fitted on these
+                                        data fails to meet the asymptotic
+                                        assumptions of the Hausman test;
+                                        see suest for a generalized test
+
+. *null hypothes rejected
+. 
+. *iv
+. ** all explanatory variables are time- and cross-sectional varying variables.
+. egen ave_pris = mean(pris), by(state)
+
+. egen ave_unem = mean(unem), by(state)
+
+. egen ave_black = mean(black), by(state)
+
+. egen ave_lmetro = mean(lmetro), by(state)
+
+. egen ave_polpc = mean(polpc), by(state)
+
+. 
+. xtreg criv pris i.year unem black lmetro polpc ave_pris ave_unem ave_black ave_lmetro ave_polpc, re
+>  vce(robust)
+
+Random-effects GLS regression                   Number of obs     =        714
+Group variable: state                           Number of groups  =         51
+
+R-sq:                                           Obs per group:
+     within  = 0.5032                                         min =         14
+     between = 0.8783                                         avg =       14.0
+     overall = 0.8465                                         max =         14
+
+                                                Wald chi2(23)     =    2288.96
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+                                 (Std. Err. adjusted for 51 clusters in state)
+------------------------------------------------------------------------------
+             |               Robust
+        criv |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0034498   .0014365     2.40   0.016     .0006344    .0062652
+             |
+        year |
+         81  |   .0764552   .0776584     0.98   0.325    -.0757525    .2286629
+         82  |  -.1593252   .1291918    -1.23   0.217    -.4125365    .0938861
+         83  |  -.4137502   .1874254    -2.21   0.027    -.7810973   -.0464031
+         84  |  -.4704635     .18122    -2.60   0.009    -.8256483   -.1152788
+         85  |  -.4053883   .2236329    -1.81   0.070    -.8437007    .0329241
+         86  |   -.214529   .3010188    -0.71   0.476    -.8045151    .3754571
+         87  |  -.4366107   .3114718    -1.40   0.161    -1.047084    .1738629
+         88  |  -.2716856   .3157338    -0.86   0.390    -.8905124    .3471413
+         89  |  -.1554863   .3485114    -0.45   0.655     -.838556    .5275834
+         90  |   .2709372    .382962     0.71   0.479    -.4796546    1.021529
+         91  |   .4475268   .4172427     1.07   0.283    -.3702539    1.265308
+         92  |   .5205233   .4053729     1.28   0.199     -.273993     1.31504
+         93  |   .4731782    .441383     1.07   0.284    -.3919165    1.338273
+             |
+        unem |  -1.246489   3.938805    -0.32   0.752    -8.966404    6.473426
+       black |  -12.21068   23.42379    -0.52   0.602    -58.12046     33.6991
+      lmetro |  -1.267851   1.232939    -1.03   0.304    -3.684368    1.148666
+       polpc |   .0124324   .0045108     2.76   0.006     .0035913    .0212734
+    ave_pris |   .0065983   .0035556     1.86   0.063    -.0003706    .0135671
+    ave_unem |   32.26683   11.50887     2.80   0.005     9.709869     54.8238
+   ave_black |   13.70308   23.68724     0.58   0.563    -32.72306    60.12922
+  ave_lmetro |   3.351195   1.445832     2.32   0.020     .5174162    6.184973
+   ave_polpc |   .0046124   .0059046     0.78   0.435    -.0069603    .0161852
+       _cons |  -2.632687   1.096277    -2.40   0.016     -4.78135   -.4840232
+-------------+----------------------------------------------------------------
+     sigma_u |  1.2052464
+     sigma_e |  .74198126
+         rho |  .72516548   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. 
+. 
+. xtreg criv pris i.year unem black lmetro polpc ave_pris ave_unem ave_black ave_lmetro ave_polpc, fe
+>  vce(robust)
+note: ave_pris omitted because of collinearity
+note: ave_unem omitted because of collinearity
+note: ave_black omitted because of collinearity
+note: ave_lmetro omitted because of collinearity
+note: ave_polpc omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =        714
+Group variable: state                           Number of groups  =         51
+
+R-sq:                                           Obs per group:
+     within  = 0.5032                                         min =         14
+     between = 0.0280                                         avg =       14.0
+     overall = 0.0010                                         max =         14
+
+                                                F(18,50)          =      33.98
+corr(u_i, Xb)  = -0.4065                        Prob > F          =     0.0000
+
+                                 (Std. Err. adjusted for 51 clusters in state)
+------------------------------------------------------------------------------
+             |               Robust
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0034498   .0014313     2.41   0.020      .000575    .0063246
+             |
+        year |
+         81  |   .0764552   .0773785     0.99   0.328    -.0789642    .2318746
+         82  |  -.1593252   .1287262    -1.24   0.222    -.4178795    .0992291
+         83  |  -.4137502     .18675    -2.22   0.031    -.7888487   -.0386517
+         84  |  -.4704635    .180567    -2.61   0.012     -.833143    -.107784
+         85  |  -.4053883    .222827    -1.82   0.075    -.8529495    .0421729
+         86  |   -.214529   .2999341    -0.72   0.478    -.8169643    .3879063
+         87  |  -.4366107   .3103494    -1.41   0.166    -1.059966    .1867444
+         88  |  -.2716856    .314596    -0.86   0.392    -.9035702    .3601991
+         89  |  -.1554863   .3472555    -0.45   0.656    -.8529694    .5419968
+         90  |   .2709372    .381582     0.71   0.481    -.4954928    1.037367
+         91  |   .4475268   .4157392     1.08   0.287    -.3875099    1.282564
+         92  |   .5205233   .4039121     1.29   0.203     -.290758    1.331805
+         93  |   .4731782   .4397924     1.08   0.287    -.4101708    1.356527
+             |
+        unem |  -1.246489   3.924611    -0.32   0.752    -9.129301    6.636324
+       black |  -12.21068   23.33938    -0.52   0.603    -59.08919    34.66784
+      lmetro |  -1.267851   1.228496    -1.03   0.307    -3.735358    1.199657
+       polpc |   .0124324   .0044946     2.77   0.008     .0034048      .02146
+    ave_pris |          0  (omitted)
+    ave_unem |          0  (omitted)
+   ave_black |          0  (omitted)
+  ave_lmetro |          0  (omitted)
+   ave_polpc |          0  (omitted)
+       _cons |   1.819044   3.380791     0.54   0.593    -4.971474    8.609562
+-------------+----------------------------------------------------------------
+     sigma_u |  3.7172073
+     sigma_e |  .74198126
+         rho |  .96168362   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. *null hypothesiscan not be rejected, the model with fixed effects should be decided.
+. 
+. 
+. reg criv polpc
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(1, 712)       =   1376.43
+       Model |  5561.08982         1  5561.08982   Prob > F        =    0.0000
+    Residual |  2876.64942       712  4.04023795   R-squared       =    0.6591
+-------------+----------------------------------   Adj R-squared   =    0.6586
+       Total |  8437.73925       713  11.8341364   Root MSE        =      2.01
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       polpc |   .0322037    .000868    37.10   0.000     .0304995    .0339078
+       _cons |  -3.545814   .2443302   -14.51   0.000    -4.025508    -3.06612
+------------------------------------------------------------------------------
+
+. predict residualpp, resid
+
+. scatter criv residualpp
+
+. 
+. 
+. reg criv unem
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(1, 712)       =     10.75
+       Model |  125.521164         1  125.521164   Prob > F        =    0.0011
+    Residual |  8312.21808       712  11.6744636   R-squared       =    0.0149
+-------------+----------------------------------   Adj R-squared   =    0.0135
+       Total |  8437.73925       713  11.8341364   Root MSE        =    3.4168
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        unem |   18.94151   5.776631     3.28   0.001     7.600244    30.28278
+       _cons |   3.781335   .4157761     9.09   0.000     2.965041    4.597629
+------------------------------------------------------------------------------
+
+. predict residualuu, resid
+
+. scatter criv residualuu
+
+. 
+. graph twoway (lfit criv unem) (scatter criv unem)
+
+. 
+. 
+. * according to scatter plot above, the possible sources of heteroskedasticity are pris，lmetro，bla
+> ck, though unmem and polpc amight not be strictly uncorrelated to the error.
+. 
+. *OLS estimators are not Best Linear Unbiased Estimators (BLUE) any more. The OLS estimaror remains 
+> consistentm but its asymptotic variance is different. The standard errors will be biased, along wit
+> h their corresponding test statistics and confidence intervals. 
+. * We need to adjust the estimation of its variance in oder to make correct inference about the esti
+> mated paramaters by taking the robust estimators.
+.  
+.  
+.  
+. *the increasing of violent crime rates may lead to the increase of the prison overcrowding.
+. xtreg  pris criv i.year unem black lmetro polpc, re 
+
+Random-effects GLS regression                   Number of obs     =        714
+Group variable: state                           Number of groups  =         51
+
+R-sq:                                           Obs per group:
+     within  = 0.6860                                         min =         14
+     between = 0.7983                                         avg =       14.0
+     overall = 0.7673                                         max =         14
+
+                                                Wald chi2(18)     =    1597.61
+corr(u_i, X)   = 0 (assumed)                    Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+        pris |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        criv |   13.43961   1.926086     6.98   0.000     9.664555    17.21467
+             |
+        year |
+         81  |   6.780542   8.128783     0.83   0.404     -9.15158    22.71266
+         82  |   19.38469   8.755265     2.21   0.027     2.224684    36.54469
+         83  |   41.23231   8.793425     4.69   0.000     23.99751     58.4671
+         84  |   52.23375   8.166461     6.40   0.000     36.22778    68.23972
+         85  |   58.88272   8.140979     7.23   0.000     42.92669    74.83874
+         86  |   65.85474   8.120981     8.11   0.000     49.93791    81.77157
+         87  |   77.41443   8.199404     9.44   0.000     61.34389    93.48496
+         88  |   83.93526   8.387754    10.01   0.000     67.49556     100.375
+         89  |   94.47016   8.517681    11.09   0.000     77.77581    111.1645
+         90  |   106.6219   8.497262    12.55   0.000     89.96755    123.2762
+         91  |   115.1318   8.362337    13.77   0.000     98.74193    131.5217
+         92  |   127.5004   8.375377    15.22   0.000     111.0849    143.9158
+         93  |   137.0443   8.458646    16.20   0.000     120.4657     153.623
+             |
+        unem |   88.25915   136.6407     0.65   0.518    -179.5516    356.0699
+       black |   211.3815   70.06575     3.02   0.003     74.05518    348.7079
+      lmetro |  -44.12714   16.31503    -2.70   0.007    -76.10401   -12.15028
+       polpc |   .5822314   .0712644     8.17   0.000     .4425556    .7219071
+       _cons |  -146.0982   23.34166    -6.26   0.000     -191.847   -100.3494
+-------------+----------------------------------------------------------------
+     sigma_u |  46.756114
+     sigma_e |  36.115994
+         rho |  .62630989   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+
+. *p<0.001 , null Hypothesis is rejected, 
+. * In expectation, if criv (violent crime rates) increases by one unit, then  the pris(person pop. p
+> er 100000 ) increases by 13.439 unit， ceteris paribus. Therefore, criv causes pris.
+. 
+. * part c
+. *i
+. reg criv black pris unem lmetro polpc y81-y93 
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =    190.94
+       Model |   7018.4686        18  389.914922   Prob > F        =    0.0000
+    Residual |  1419.27065       695  2.04211604   R-squared       =    0.8318
+-------------+----------------------------------   Adj R-squared   =    0.8274
+       Total |  8437.73925       713  11.8341364   Root MSE        =     1.429
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       black |   3.651186   .7157996     5.10   0.000     2.245797    5.056575
+        pris |   .0080112   .0008353     9.59   0.000     .0063712    .0096513
+        unem |   18.85406   3.006819     6.27   0.000     12.95052     24.7576
+      lmetro |   2.036934   .1330727    15.31   0.000     1.775661    2.298206
+       polpc |   .0168966   .0009501    17.78   0.000     .0150311    .0187621
+         y81 |  -.0574696   .2833794    -0.20   0.839     -.613852    .4989127
+         y82 |  -.7827551   .2921584    -2.68   0.008    -1.356374   -.2091361
+         y83 |  -1.130635   .2930226    -3.86   0.000     -1.70595   -.5553189
+         y84 |  -.8555345   .2857394    -2.99   0.003     -1.41655   -.2945186
+         y85 |  -.8217155   .2865295    -2.87   0.004    -1.384283   -.2591483
+         y86 |  -.7099464   .2880142    -2.46   0.014    -1.275429    -.144464
+         y87 |  -.8895324   .2905561    -3.06   0.002    -1.460005   -.3190595
+         y88 |  -.6623304     .29542    -2.24   0.025    -1.242353   -.0823077
+         y89 |  -.5827474   .3000857    -1.94   0.053    -1.171931    .0064358
+         y90 |  -.3373211   .3037311    -1.11   0.267    -.9336617    .2590195
+         y91 |  -.4631328   .3035779    -1.53   0.128    -1.059173    .1329069
+         y92 |  -.5578862    .307157    -1.82   0.070    -1.160953    .0451806
+         y93 |  -.6015333   .3116117    -1.93   0.054    -1.213346    .0102799
+       _cons |  -1.053148   .3759127    -2.80   0.005    -1.791209   -.3150876
+------------------------------------------------------------------------------
+
+. reg black final1 pris unem lmetro polpc y81-y93
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =     62.93
+       Model |  6.49192767        18  .360662648   Prob > F        =    0.0000
+    Residual |  3.98341098       695  .005731527   R-squared       =    0.6197
+-------------+----------------------------------   Adj R-squared   =    0.6099
+       Total |  10.4753387       713   .01469192   Root MSE        =    .07571
+
+------------------------------------------------------------------------------
+       black |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      final1 |  -.0195791   .0314312    -0.62   0.534    -.0812906    .0421323
+        pris |    .000697   .0000356    19.56   0.000      .000627    .0007669
+        unem |   .5707256   .1578492     3.62   0.000     .2608071    .8806441
+      lmetro |    .022504   .0069981     3.22   0.001     .0087641    .0362438
+       polpc |   .0000817   .0000503     1.62   0.105    -.0000171    .0001805
+         y81 |  -.0064297   .0150109    -0.43   0.669    -.0359019    .0230426
+         y82 |  -.0269709   .0154447    -1.75   0.081    -.0572948     .003353
+         y83 |   -.038198   .0154615    -2.47   0.014    -.0685548   -.0078412
+         y84 |  -.0335877   .0150851    -2.23   0.026    -.0632056   -.0039698
+         y85 |  -.0386541   .0151099    -2.56   0.011    -.0683207   -.0089876
+         y86 |  -.0472006   .0151584    -3.11   0.002    -.0769622   -.0174389
+         y87 |   -.052502   .0152652    -3.44   0.001    -.0824734   -.0225306
+         y88 |  -.0568277    .015503    -3.67   0.000    -.0872661   -.0263893
+         y89 |  -.0650096     .01571    -4.14   0.000    -.0958543   -.0341649
+         y90 |  -.0817662   .0157923    -5.18   0.000    -.1127726   -.0507599
+         y91 |  -.0971018   .0156788    -6.19   0.000    -.1278854   -.0663183
+         y92 |  -.1097292   .0157322    -6.97   0.000    -.1406176   -.0788408
+         y93 |  -.1162453    .015915    -7.30   0.000    -.1474926    -.084998
+       _cons |  -.0280356   .0198883    -1.41   0.159     -.067084    .0110128
+------------------------------------------------------------------------------
+
+. 
+. ivreg criv pris unem lmetro polpc y81-y93 (black = final1)
+
+Instrumental variables (2SLS) regression
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =     34.50
+       Model |  640.235108        18  35.5686171   Prob > F        =    0.0000
+    Residual |  7797.50414       695  11.2194304   R-squared       =    0.0759
+-------------+----------------------------------   Adj R-squared   =    0.0519
+       Total |  8437.73925       713  11.8341364   Root MSE        =    3.3495
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       black |  -36.35263   71.02608    -0.51   0.609     -175.804    103.0988
+        pris |   .0358259   .0494095     0.73   0.469    -.0611839    .1328358
+        unem |   41.61867   41.01692     1.01   0.311    -38.91326    122.1506
+      lmetro |   2.937437   1.628531     1.80   0.072    -.2599938    6.134868
+       polpc |   .0202407   .0063397     3.19   0.001     .0077934     .032688
+         y81 |  -.3137499   .8050591    -0.39   0.697    -1.894389    1.266889
+         y82 |  -1.858812    2.02904    -0.92   0.360    -5.842595    2.124971
+         y83 |  -2.669838   2.817076    -0.95   0.344    -8.200837    2.861161
+         y84 |  -2.195686    2.47124    -0.89   0.375    -7.047676    2.656305
+         y85 |  -2.364221   2.819096    -0.84   0.402    -7.899186    3.170744
+         y86 |  -2.609269   3.438201    -0.76   0.448    -9.359775    4.141237
+         y87 |  -2.985652   3.782403    -0.79   0.430    -10.41196    4.440655
+         y88 |  -2.931614   4.087035    -0.72   0.473    -10.95603    5.092802
+         y89 |  -3.194189   4.688339    -0.68   0.496     -12.3992    6.010817
+         y90 |  -3.602416   5.839064    -0.62   0.537    -15.06674    7.861904
+         y91 |  -4.371065    6.97293    -0.63   0.531     -18.0616    9.319468
+         y92 |  -4.954416   7.836924    -0.63   0.527     -20.3413    10.43247
+         y93 |  -5.243253   8.271304    -0.63   0.526    -21.48299    10.99649
+       _cons |  -2.181718   2.188415    -1.00   0.319    -6.478416     2.11498
+------------------------------------------------------------------------------
+Instrumented:  black
+Instruments:   pris unem lmetro polpc y81 y82 y83 y84 y85 y86 y87 y88 y89
+               y90 y91 y92 y93 final1
+------------------------------------------------------------------------------
+
+. 
+. reg black final2 pris unem lmetro polpc y81-y93
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =     62.98
+       Model |  6.49413319        18  .360785177   Prob > F        =    0.0000
+    Residual |  3.98120546       695  .005728353   R-squared       =    0.6199
+-------------+----------------------------------   Adj R-squared   =    0.6101
+       Total |  10.4753387       713   .01469192   Root MSE        =    .07569
+
+------------------------------------------------------------------------------
+       black |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      final2 |  -.0196524   .0223487    -0.88   0.380    -.0635315    .0242267
+        pris |   .0006981   .0000357    19.57   0.000      .000628    .0007681
+        unem |   .5722385   .1578243     3.63   0.000      .262369     .882108
+      lmetro |   .0227271   .0070004     3.25   0.001     .0089825    .0364716
+       polpc |   .0000798   .0000504     1.58   0.114    -.0000192    .0001787
+         y81 |  -.0076064   .0150686    -0.50   0.614    -.0371919    .0219791
+         y82 |  -.0281876   .0155094    -1.82   0.070    -.0586385    .0022634
+         y83 |  -.0398241   .0155265    -2.56   0.011    -.0703086   -.0093395
+         y84 |  -.0344255   .0151169    -2.28   0.023    -.0641058   -.0047451
+         y85 |  -.0394965   .0151425    -2.61   0.009    -.0692272   -.0097659
+         y86 |  -.0488171   .0152239    -3.21   0.001    -.0787074   -.0189267
+         y87 |  -.0533429   .0152978    -3.49   0.001    -.0833784   -.0233074
+         y88 |  -.0576611   .0155343    -3.71   0.000    -.0881609   -.0271614
+         y89 |  -.0666186   .0157733    -4.22   0.000    -.0975876   -.0356496
+         y90 |  -.0826281   .0158278    -5.22   0.000    -.1137042   -.0515521
+         y91 |  -.0987571   .0156932    -6.29   0.000    -.1295689   -.0679453
+         y92 |  -.1110228   .0157769    -7.04   0.000     -.141999   -.0800467
+         y93 |  -.1167676   .0159289    -7.33   0.000    -.1480422    -.085493
+       _cons |  -.0265041   .0199754    -1.33   0.185    -.0657235    .0127153
+------------------------------------------------------------------------------
+
+. 
+. ivreg criv pris unem lmetro polpc y81-y93 (black = final2)
+
+Instrumental variables (2SLS) regression
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =     39.53
+       Model |  1629.85884        18  90.5477136   Prob > F        =    0.0000
+    Residual |   6807.8804       695  9.79551137   R-squared       =    0.1932
+-------------+----------------------------------   Adj R-squared   =    0.1723
+       Total |  8437.73925       713  11.8341364   Root MSE        =    3.1298
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       black |  -33.11847   47.02566    -0.70   0.482    -125.4479    59.21091
+        pris |   .0335772     .03273     1.03   0.305    -.0306843    .0978387
+        unem |   39.77823    27.5444     1.44   0.149    -14.30197    93.85843
+      lmetro |   2.864635   1.097389     2.61   0.009      .710039     5.01923
+       polpc |   .0199703   .0044459     4.49   0.000     .0112412    .0286994
+         y81 |  -.2930306   .6898239    -0.42   0.671    -1.647419    1.061358
+         y82 |  -1.771817   1.416941    -1.25   0.212    -4.553814     1.01018
+         y83 |  -2.545399   1.918873    -1.33   0.185    -6.312882    1.222083
+         y84 |  -2.087339   1.694321    -1.23   0.218    -5.413942    1.239263
+         y85 |  -2.239515   1.917829    -1.17   0.243    -6.004948    1.525918
+         y86 |  -2.455716   2.318912    -1.06   0.290    -7.008629    2.097197
+         y87 |  -2.816188    2.54357    -1.11   0.269    -7.810191    2.177814
+         y88 |  -2.748151   2.743512    -1.00   0.317    -8.134717    2.638414
+         y89 |  -2.983064   3.137724    -0.95   0.342    -9.143619    3.177491
+         y90 |  -3.338445   3.893331    -0.86   0.391    -10.98255    4.305656
+         y91 |  -4.055123   4.639226    -0.87   0.382     -13.1637    5.053456
+         y92 |  -4.598973   5.208999    -0.88   0.378    -14.82623    5.628288
+         y93 |  -4.867987   5.495983    -0.89   0.376    -15.65871    5.922733
+       _cons |  -2.090478   1.560743    -1.34   0.181    -5.154815    .9738595
+------------------------------------------------------------------------------
+Instrumented:  black
+Instruments:   pris unem lmetro polpc y81 y82 y83 y84 y85 y86 y87 y88 y89
+               y90 y91 y92 y93 final2
+------------------------------------------------------------------------------
+
+. 
+. * both intrumental variables are not satisfied.
+. reg criv pris black unem lmetro polpc y81-y93
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =    190.94
+       Model |   7018.4686        18  389.914922   Prob > F        =    0.0000
+    Residual |  1419.27065       695  2.04211604   R-squared       =    0.8318
+-------------+----------------------------------   Adj R-squared   =    0.8274
+       Total |  8437.73925       713  11.8341364   Root MSE        =     1.429
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0080112   .0008353     9.59   0.000     .0063712    .0096513
+       black |   3.651186   .7157996     5.10   0.000     2.245797    5.056575
+        unem |   18.85406   3.006819     6.27   0.000     12.95052     24.7576
+      lmetro |   2.036934   .1330727    15.31   0.000     1.775661    2.298206
+       polpc |   .0168966   .0009501    17.78   0.000     .0150311    .0187621
+         y81 |  -.0574696   .2833794    -0.20   0.839     -.613852    .4989127
+         y82 |  -.7827551   .2921584    -2.68   0.008    -1.356374   -.2091361
+         y83 |  -1.130635   .2930226    -3.86   0.000     -1.70595   -.5553189
+         y84 |  -.8555345   .2857394    -2.99   0.003     -1.41655   -.2945186
+         y85 |  -.8217155   .2865295    -2.87   0.004    -1.384283   -.2591483
+         y86 |  -.7099464   .2880142    -2.46   0.014    -1.275429    -.144464
+         y87 |  -.8895324   .2905561    -3.06   0.002    -1.460005   -.3190595
+         y88 |  -.6623304     .29542    -2.24   0.025    -1.242353   -.0823077
+         y89 |  -.5827474   .3000857    -1.94   0.053    -1.171931    .0064358
+         y90 |  -.3373211   .3037311    -1.11   0.267    -.9336617    .2590195
+         y91 |  -.4631328   .3035779    -1.53   0.128    -1.059173    .1329069
+         y92 |  -.5578862    .307157    -1.82   0.070    -1.160953    .0451806
+         y93 |  -.6015333   .3116117    -1.93   0.054    -1.213346    .0102799
+       _cons |  -1.053148   .3759127    -2.80   0.005    -1.791209   -.3150876
+------------------------------------------------------------------------------
+
+. 
+. reg pris final2 black unem lmetro polpc y81-y93
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =    128.44
+       Model |  9655448.15        18  536413.786   Prob > F        =    0.0000
+    Residual |     2902522       695  4176.29064   R-squared       =    0.7689
+-------------+----------------------------------   Adj R-squared   =    0.7629
+       Total |  12557970.1       713  17612.8614   Root MSE        =    64.624
+
+------------------------------------------------------------------------------
+        pris |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      final2 |   45.74103   19.01402     2.41   0.016     8.409219    83.07284
+       black |   508.9368   26.00607    19.57   0.000     457.8769    559.9967
+        unem |     457.97   134.9126     3.39   0.001     193.0848    722.8551
+      lmetro |  -6.538783   6.017358    -1.09   0.278    -18.35316    5.275596
+       polpc |   .6100796   .0363836    16.77   0.000     .5386447    .6815146
+         y81 |   8.061489   12.86506     0.63   0.531    -17.19755    33.32053
+         y82 |   10.56959   13.26806     0.80   0.426    -15.48069    36.61988
+         y83 |   28.90541    13.2747     2.18   0.030     2.842084    54.96874
+         y84 |   45.94363   12.83788     3.58   0.000     20.73795    71.14932
+         y85 |   54.46416   12.82726     4.25   0.000     29.27934    79.64898
+         y86 |   66.30462   12.85089     5.16   0.000      41.0734    91.53584
+         y87 |   77.73627   12.84159     6.05   0.000     52.52331    102.9492
+         y88 |   90.53524   12.94704     6.99   0.000     65.11525    115.9552
+         y89 |   105.5615   13.03875     8.10   0.000     79.96139    131.1615
+         y90 |    122.682   12.96721     9.46   0.000     97.22236    148.1416
+         y91 |   130.5547    12.8552    10.16   0.000     105.3151    155.7944
+         y92 |   142.7283    12.8487    11.11   0.000     117.5014    167.9552
+         y93 |   153.6078   12.85833    11.95   0.000      128.362    178.8536
+       _cons |  -126.6886   16.38747    -7.73   0.000    -158.8635   -94.51372
+------------------------------------------------------------------------------
+
+. 
+. ivreg criv black unem lmetro polpc y81-y93 (pris = final2)
+
+Instrumental variables (2SLS) regression
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =    123.53
+       Model |  6298.45553        18  349.914196   Prob > F        =    0.0000
+    Residual |  2139.28372       695  3.07810607   R-squared       =    0.7465
+-------------+----------------------------------   Adj R-squared   =    0.7399
+       Total |  8437.73925       713  11.8341364   Root MSE        =    1.7545
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |   .0236961   .0112853     2.10   0.036     .0015387    .0458536
+       black |  -4.356996   5.804978    -0.75   0.453    -15.75439    7.040401
+        unem |   11.47078   6.450964     1.78   0.076    -1.194932     24.1365
+      lmetro |   2.131452   .1768577    12.05   0.000     1.784212    2.478691
+       polpc |    .007385   .0069144     1.07   0.286    -.0061905    .0209606
+         y81 |  -.1405318   .3529663    -0.40   0.691    -.8335398    .5524763
+         y82 |    -.90138   .3686239    -2.45   0.015     -1.62513     -.17763
+         y83 |  -1.536607   .4626424    -3.32   0.001    -2.444951   -.6282623
+         y84 |   -1.54674   .6069242    -2.55   0.011    -2.738365   -.3551156
+         y85 |  -1.647003   .6880642    -2.39   0.017    -2.997937   -.2960696
+         y86 |  -1.707372   .7973738    -2.14   0.033    -3.272923    -.141822
+         y87 |  -2.082046   .9259402    -2.25   0.025    -3.900021   -.2640702
+         y88 |  -2.057472   1.063419    -1.93   0.053     -4.14537    .0304258
+         y89 |  -2.200303   1.216168    -1.81   0.071    -4.588108    .1875013
+         y90 |  -2.237134   1.411417    -1.59   0.113    -5.008286    .5340181
+         y91 |  -2.484607   1.495623    -1.66   0.097    -5.421088    .4518746
+         y92 |   -2.76948   1.628917    -1.70   0.090    -5.967668    .4287082
+         y93 |   -2.99909   1.759995    -1.70   0.089    -6.454635    .4564558
+       _cons |   .8887965   1.465996     0.61   0.545    -1.989515    3.767108
+------------------------------------------------------------------------------
+Instrumented:  pris
+Instruments:   black unem lmetro polpc y81 y82 y83 y84 y85 y86 y87 y88 y89
+               y90 y91 y92 y93 final2
+------------------------------------------------------------------------------
+
+. * P=0.036>>0.01, null hypothesis is rejected. Therefore, the intrumental variable final2 is weak.
+. 
+. 
+. 
+. reg pris final1 black unem lmetro polpc y81-y93
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =    127.97
+       Model |  9647273.23        18  535959.624   Prob > F        =    0.0000
+    Residual |  2910696.92       695  4188.05312   R-squared       =    0.7682
+-------------+----------------------------------   Adj R-squared   =    0.7622
+       Total |  12557970.1       713  17612.8614   Root MSE        =    64.715
+
+------------------------------------------------------------------------------
+        pris |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      final1 |   52.37612   26.80174     1.95   0.051     -.245956    104.9982
+       black |   509.2689    26.0423    19.56   0.000     458.1379    560.3999
+        unem |   462.8499   135.0582     3.43   0.001     197.6789     728.021
+      lmetro |  -6.009446   6.022051    -1.00   0.319    -17.83304    5.814147
+       polpc |   .6080992   .0364131    16.70   0.000     .5366064     .679592
+         y81 |   5.338539   12.83163     0.42   0.678    -19.85487    30.53195
+         y82 |   7.754526   13.22802     0.59   0.558    -18.21714    33.72619
+         y83 |   25.05415   13.24051     1.89   0.059    -.9420314    51.05034
+         y84 |   44.11055   12.83224     3.44   0.001     18.91594    69.30515
+         y85 |   52.64129   12.82227     4.11   0.000     27.46625    77.81632
+         y86 |   62.57121   12.82995     4.88   0.000     37.38111    87.76132
+         y87 |   75.97038   12.84005     5.92   0.000     50.76044    101.1803
+         y88 |   88.81686   12.94858     6.86   0.000     63.39383    114.2399
+         y89 |   101.9393   13.03196     7.82   0.000     76.35253     127.526
+         y90 |   120.9759   12.96947     9.33   0.000     95.51187    146.4399
+         y91 |   126.7511   12.90049     9.83   0.000     101.4225    152.0797
+         y92 |   139.9307   12.85836    10.88   0.000     114.6848    165.1766
+         y93 |   152.7663   12.87272    11.87   0.000     127.4922    178.0404
+       _cons |  -123.5618   16.36721    -7.55   0.000    -155.6969   -91.42672
+------------------------------------------------------------------------------
+
+. 
+. ivreg criv black unem lmetro polpc y81-y93 (pris = final1)
+
+Instrumental variables (2SLS) regression
+
+      Source |       SS           df       MS      Number of obs   =       714
+-------------+----------------------------------   F(18, 695)      =    127.73
+       Model |  6370.39486        18  353.910825   Prob > F        =    0.0000
+    Residual |  2067.34439       695  2.97459624   R-squared       =    0.7550
+-------------+----------------------------------   Adj R-squared   =    0.7486
+       Total |  8437.73925       713  11.8341364   Root MSE        =    1.7247
+
+------------------------------------------------------------------------------
+        criv |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pris |    .022892   .0136376     1.68   0.094    -.0038839    .0496678
+       black |  -3.946406   6.997375    -0.56   0.573    -17.68494    9.792123
+        unem |   11.84933   7.358991     1.61   0.108    -2.599186    26.29785
+      lmetro |   2.126606   .1803087    11.79   0.000     1.772591    2.480621
+       polpc |   .0078727   .0083267     0.95   0.345    -.0084759    .0242213
+         y81 |   -.136273   .3495138    -0.39   0.697    -.8225025    .5499564
+         y82 |   -.895298   .3673042    -2.44   0.015    -1.616457    -.174139
+         y83 |  -1.515792   .4989831    -3.04   0.002    -2.495487   -.5360969
+         y84 |  -1.511301   .6914747    -2.19   0.029    -2.868931   -.1536714
+         y85 |   -1.60469   .7947786    -2.02   0.044    -3.165144   -.0442347
+         y86 |  -1.656233   .9321027    -1.78   0.076    -3.486308    .1738418
+         y87 |  -2.020904   1.091865    -1.85   0.065    -4.164654    .1228463
+         y88 |  -1.985941   1.261167    -1.57   0.116    -4.462095    .4902123
+         y89 |  -2.117369   1.448578    -1.46   0.144    -4.961483    .7267452
+         y90 |  -2.139728   1.687609    -1.27   0.205     -5.45315    1.173695
+         y91 |  -2.380963    1.79069    -1.33   0.184    -5.896774    1.134848
+         y92 |  -2.656089   1.953161    -1.36   0.174    -6.490892    1.178715
+         y93 |  -2.876164   2.112649    -1.36   0.174    -7.024104    1.271776
+       _cons |   .7892304   1.743897     0.45   0.651    -2.634708    4.213169
+------------------------------------------------------------------------------
+Instrumented:  pris
+Instruments:   black unem lmetro polpc y81 y82 y83 y84 y85 y86 y87 y88 y89
+               y90 y91 y92 y93 final1
+------------------------------------------------------------------------------
+
+. 
+. * P=0.094>>0.01, null hypothesis is rejected. Therefore, the intrumental variable final1 is weak.
+. 
+. * relevance: correlation between pris and final2 is not zero.
+. * exogeneity: correlation between final2 and error term should be zero
+. 
+. 
+. 
+. use loanapp.dta
+no; dataset in memory has changed since last saved
+r(4);
+
+end of do-file
+
+r(4);
+
+. exit, clear
